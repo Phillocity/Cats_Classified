@@ -11,3 +11,104 @@
 // Your CSS partials
 @import "components/index";
 @import "pages/index";
+
+$avatar: 400px;
+
+body{
+background-color: #ffc400 !important;
+}
+
+.cat-card{
+  height: 100vh;
+}
+
+.search-bar{
+  &:hover input{
+    border: #ffc400 solid 3px;
+  }
+
+  &:hover button{
+    border: #ffc400 solid 3px;
+    background-color: #ffc400;
+    color: #0E0000;
+    font-size: 1em;
+  }
+}
+
+.flex-wrapper{
+  max-height: 100vh;
+  min-height: 100vh;
+  background-color: white
+}
+
+.top-content{
+  max-height: 100vh;
+  min-height: 100vh;
+}
+
+.button {
+  width: 5rem;
+  height: 55px;
+  cursor: pointer;
+  outline: none;
+  color: #fff;
+  background-color: rgb(0, 0, 0);
+  border: none;
+  border-radius: 0 50rem 50rem 0;
+}
+
+input{
+  height: 55px;
+  border: solid 3px black;
+  outline: none;
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  padding: 10px;
+  font-size: 1.2em;
+  border-radius: 50rem 0 0 50rem;
+  padding-left: 20px;
+
+
+}
+
+a{
+  font-size: 2rem;
+  color:$red;
+  text-decoration: none;
+  text-shadow: 1px 1px 0px #d3d3d380;
+
+
+  &:hover{
+    color:$darkerRed;
+  }
+}
+
+.stylize{
+  color: $yellow;
+  text-shadow: 1px 1px 0px #d3d3d380;
+}
+
+.stylizeP{
+  color: $yellow;
+  text-shadow: 1px 1px 0px #d3d3d380;
+}
+
+.left{
+  min-width: 50%;
+  border-right: 3px solid black;
+  padding: 30px 30px 0 30px;
+}
+
+
+.right{
+  min-width: 50%;
+}
+
+.profile{
+  min-width: $avatar;
+  max-width: $avatar;
+  min-height:  $avatar;
+  max-height:  $avatar;
+  object-fit: cover;
+  border: 3px solid black
+}
