@@ -13,7 +13,8 @@ A simple app that showcases cat breeds using [The Cat API](https://thecatapi.com
   * Energy
 
   Built with Rails and Jquery. The [main Javascript file](https://github.com/Shushyy/Cats_Classified/blob/main/app/javascript/packs/application.js) being found here, [HTML here](https://github.com/Shushyy/Cats_Classified/blob/main/app/views/pages/home.html.erb) and [CSS here](https://github.com/Shushyy/Cats_Classified/blob/main/app/assets/stylesheets/application.scss). This app has been [deployed on this link](https://the-cat-breed-archive.herokuapp.com/) and below is a video showcasing how it should look:
-https://user-images.githubusercontent.com/12134641/174481893-4623c2b2-2cf0-41c3-af85-095132c0f158.mp4
+
+https://user-images.githubusercontent.com/12134641/174482793-06481170-ae93-4f78-8e3b-3eb8f2598d75.mp4
 
 ## How to use
 [Click Here for App](https://the-cat-breed-archive.herokuapp.com/)
