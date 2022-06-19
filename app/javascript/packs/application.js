@@ -37,49 +37,52 @@ const starRating = (rating) => {
   return `${`★`.repeat(rating)}${`☆`.repeat(5-rating)}`
 }
 
-
+// Fetches the breed details of given cat
 const catFetch = async (cat) => {
   const url = `https://api.thecatapi.com/v1/breeds/search?q=${cat}`
   await fetch(url, {
-    method: "GET",
-    headers: {
-      "x-api-key": "d4444680-73e4-4960-8552-69d64520f48b"
-    }
-  })
-  .then(response => {
-    if (response.ok) {
-      response.json().then(data => {
-        name.text(data[0].name); // cat name
-        origin.text(data[0].origin); // cat origin
-        life_span.text(data[0].life_span); // cat life span
-        descP.text(data[0].description); // cat description
-        child.text(`${starRating(data[0].child_friendly)}`); // cat child friendly
-        affection.text(`${starRating(data[0].affection_level)}`); // cat affection
-        stranger.text(`${starRating(data[0].stranger_friendly)}`); // cat stranger friendly
-        intel.text(`${starRating(data[0].intelligence)}`); // cat intelligence
-        energy.text(`${starRating(data[0].energy_level)}`); // cat energy level
-        info.attr('href', `${data[0].wikipedia_url}`); // cat wikipedia url
-        return fetch(`https://api.thecatapi.com/v1/images/${data[0].reference_image_id}`)
-      }).then(response => response.json()).then(data => {
-        profile.attr('src', `${data.url}`) // cat image url
-      })
-    }
-  })
+      method: "GET",
+      headers: {
+        "x-api-key": "d4444680-73e4-4960-8552-69d64520f48b"
+      }
+    })
+    .then(response => {
+      if (response.ok) {
+        response.json().then(data => {
+          name.text(data[0].name); // cat name
+          origin.text(data[0].origin); // cat origin
+          life_span.text(data[0].life_span); // cat life span
+          descP.text(data[0].description); // cat description
+          child.text(`${starRating(data[0].child_friendly)}`); // cat child friendly
+          affection.text(`${starRating(data[0].affection_level)}`); // cat affection
+          stranger.text(`${starRating(data[0].stranger_friendly)}`); // cat stranger friendly
+          intel.text(`${starRating(data[0].intelligence)}`); // cat intelligence
+          energy.text(`${starRating(data[0].energy_level)}`); // cat energy level
+          info.attr('href', `${data[0].wikipedia_url}`); // cat wikipedia url
+          return fetch(`https://api.thecatapi.com/v1/images/${data[0].reference_image_id}`)
+        }).then(response => response.json()).then(data => {
+          profile.attr('src', `${data.url}`) // cat image url
+        })
+      }
+    })
 }
-
 
 
 window.onload = () => {
   catFetch(catBreeds[Math.floor(Math.random() * catBreeds.length)])
 };
 
-$(".random").on( "click", function() {
+$(".random").on("click", function () {
   catFetch(catBreeds[Math.floor(Math.random() * catBreeds.length)])
-}
-)
+})
 
-$("input").on("keyup", function(event) {
+$("input").on("keydown", function (event) {
+  if (event.key === "Enter" && catBreeds.includes(event.target.value.toLowerCase())) {
+    catFetch(event.target.value);
+    event.target.value = ""
+  }
+
+
   const filtered = catBreeds.filter(cat => cat.includes(event.target.value.toLowerCase()))
   console.log(filtered)
-}
-)
+})
