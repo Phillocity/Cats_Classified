@@ -1,7 +1,7 @@
 
 ## The Cat Breed Archive
 
-A simple app that showcases cat breeds using [The Cat API](https://thecatapi.com/), allows searching by cat breed names with autocomplete and a random button, and renders information such as:
+A simple app that showcases cat breeds using [The Cat API](https://thecatapi.com/), created with Desktop 1980x1080 dimensions with no responsive design currently. It allows searching by cat breed names with autocomplete and a random button, and renders information such as:
   * Name
   * Country Origin  
   * Life Span
