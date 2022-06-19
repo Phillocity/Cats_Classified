@@ -19,6 +19,7 @@ ActiveStorage.start()
 import "controllers"
 import "bootstrap"
 
+// Temporary array of all breeds
 const catBreeds = ["abyssinian", "aegean", "american bobtail", "american curl", "american shorthair", "american wirehair", "arabian mau", "australian mist", "balinese", "bambino", "bengal", "birman", "bombay", "british longhair", "british shorthair", "burmese", "burmilla", "california spangled", "chantilly-tiffany", "chartreux", "chausie", "cheetoh", "colorpoint shorthair", "cornish rex", "cymric", "cyprus", "devon rex", "donskoy", "dragon li", "egyptian mau", "exotic shorthair", "havana brown", "himalayan", "japanese bobtail", "javanese", "khao manee", "korat", "kurilian", "laperm", "maine coon", "malayan", "manx", "munchkin", "nebelung", "norwegian forest cat", "ocicat", "oriental", "persian", "pixie-bob", "ragamuffin", "ragdoll", "russian blue", "savannah", "scottish fold", "selkirk rex", "siamese", "siberian", "singapura", "snowshoe", "somali", "sphynx", "tonkinese", "toyger", "turkish angora", "turkish van", "york chocolate"]
 
 const name = $(".name .stylize")
@@ -59,6 +60,7 @@ const catFetch = async (cat) => {
           intel.text(`${starRating(data[0].intelligence)}`); // cat intelligence
           energy.text(`${starRating(data[0].energy_level)}`); // cat energy level
           info.attr('href', `${data[0].wikipedia_url}`); // cat wikipedia url
+          profile.attr('href', `https://cdn.dribbble.com/users/115601/screenshots/5356365/loading.gif`); // cat profile url temp
           return fetch(`https://api.thecatapi.com/v1/images/${data[0].reference_image_id}`)
         }).then(response => response.json()).then(data => {
           profile.attr('src', `${data.url}`) // cat image url
@@ -67,22 +69,43 @@ const catFetch = async (cat) => {
     })
 }
 
-
 window.onload = () => {
   catFetch(catBreeds[Math.floor(Math.random() * catBreeds.length)])
 };
 
+// Random cat breed event
 $(".random").on("click", function () {
   catFetch(catBreeds[Math.floor(Math.random() * catBreeds.length)])
 })
 
-$("input").on("keydown", function (event) {
+// Search input handler
+$("input").on("keyup", function (event) {
+  // Calls the API if enter is pressed and the input is valid within the array
   if (event.key === "Enter" && catBreeds.includes(event.target.value.toLowerCase())) {
     catFetch(event.target.value);
-    event.target.value = ""
+    event.target.val("")
   }
 
 
-  const filtered = catBreeds.filter(cat => cat.includes(event.target.value.toLowerCase()))
-  console.log(filtered)
+  if (event.target.value.length > 0) {
+    const filteredCats = catBreeds.filter(cat => cat.includes(event.target.value.toLowerCase()))
+    const regex = new RegExp(event.target.value, 'gi')
+    $("ul").empty()
+    filteredCats.slice(0, 9).forEach(cat => {
+      const catHighlight = cat.replace(regex,`<span class="highlight">${event.target.value}</span>`)
+      $("ul").append(
+        `<li>
+        <span class="autocomplete>">${catHighlight}</span>
+      </li>`
+      )
+    })
+  } else {
+    $("ul").empty()
+  }
+  $("li").on("click", function (event) {
+    catFetch(event.target.innerText)
+    $("ul").empty()
+    $("input").val("")
+
+  })
 })

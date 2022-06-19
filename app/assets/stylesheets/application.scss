@@ -23,6 +23,7 @@ background-color: #ffc400 !important;
 }
 
 .search-bar{
+  position: relative;
   &:hover input{
     border: #ffc400 solid 3px;
   }
@@ -44,6 +45,9 @@ background-color: #ffc400 !important;
 .top-content{
   max-height: 100vh;
   min-height: 100vh;
+  border-width: 0 3px 0 3px;
+  border-color: black;
+  border-style: solid;
 }
 
 .button {
@@ -66,9 +70,7 @@ input{
   padding: 10px;
   font-size: 1.2em;
   border-radius: 50rem 0 0 50rem;
-  padding-left: 20px;
-
-
+  padding-left: 37px;
 }
 
 a{
@@ -111,4 +113,39 @@ a{
   max-height:  $avatar;
   object-fit: cover;
   border: 3px solid black
+}
+
+ul{
+  padding: 0;
+  margin: 0;
+  position: absolute;
+  width: 70%;
+  top: 55px;
+}
+
+li {
+  list-style: none;
+  border-width: 0 3px 3px 3px;
+  border-color: black;
+  border-style: solid;
+  padding: 6px;
+  background-color: white;
+  text-transform: capitalize;
+  cursor: pointer;
+
+  &:hover{
+    background-color: $yellow;
+    color: black;
+  }
+}
+
+.autocomplete{
+  font-size: 1.2em;
+}
+
+.highlight{
+  font-style: strong;
+  color: $yellow;
+  background-color: $gray;
+  padding: 2px
 }
