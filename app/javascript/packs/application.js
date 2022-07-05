@@ -19,8 +19,8 @@ ActiveStorage.start()
 import "controllers"
 import "bootstrap"
 
-// Temporary array of all breeds
-const catBreeds = ["abyssinian", "aegean", "american bobtail", "american curl", "american shorthair", "american wirehair", "arabian mau", "australian mist", "balinese", "bambino", "bengal", "birman", "bombay", "british longhair", "british shorthair", "burmese", "burmilla", "california spangled", "chantilly-tiffany", "chartreux", "chausie", "cheetoh", "colorpoint shorthair", "cornish rex", "cymric", "cyprus", "devon rex", "donskoy", "dragon li", "egyptian mau", "exotic shorthair", "havana brown", "himalayan", "japanese bobtail", "javanese", "khao manee", "korat", "kurilian", "laperm", "maine coon", "malayan", "manx", "munchkin", "nebelung", "norwegian forest cat", "ocicat", "oriental", "persian", "pixie-bob", "ragamuffin", "ragdoll", "russian blue", "savannah", "scottish fold", "selkirk rex", "siamese", "siberian", "singapura", "snowshoe", "somali", "sphynx", "tonkinese", "toyger", "turkish angora", "turkish van", "york chocolate"]
+// Array of all breeds
+let catBreeds = [];
 
 const name = $(".name .stylize")
 const origin = $(".origin .stylize")
@@ -69,10 +69,6 @@ const catFetch = async (cat) => {
     })
 }
 
-window.onload = () => {
-  catFetch(catBreeds[Math.floor(Math.random() * catBreeds.length)])
-};
-
 // Random cat breed event
 $(".random").on("click", function () {
   catFetch(catBreeds[Math.floor(Math.random() * catBreeds.length)])
@@ -109,3 +105,11 @@ $("input").on("keyup", function (event) {
 
   })
 })
+
+
+window.onload = () => {
+  fetch("https://api.thecatapi.com/v1/breeds")
+  .then(response => response.json())
+  .then(data => catBreeds = data.map(cat => cat.name))
+  .then(catBreeds => catFetch(catBreeds[Math.floor(Math.random() * catBreeds.length)]))
+};
