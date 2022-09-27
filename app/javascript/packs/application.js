@@ -3,53 +3,53 @@
 // a relevant structure within app/javascript and only use these pack files to reference
 // that code so it'll be compiled.
 
-import Rails from "@rails/ujs"
-import Turbolinks from "turbolinks"
-import * as ActiveStorage from "@rails/activestorage"
-import "channels"
-import $ from 'jquery';
+import Rails from "@rails/ujs";
+import Turbolinks from "turbolinks";
+import * as ActiveStorage from "@rails/activestorage";
+import "channels";
+import $ from "jquery";
 
+require("jquery");
 
-require("jquery")
+Rails.start();
+Turbolinks.start();
+ActiveStorage.start();
 
-Rails.start()
-Turbolinks.start()
-ActiveStorage.start()
-
-import "controllers"
-import "bootstrap"
+import "controllers";
+import "bootstrap";
 
 // Array of all breeds
 let catBreeds = [];
 
-const name = $(".name .stylize")
-const origin = $(".origin .stylize")
-const life_span = $(".life_span .stylize")
-const descP = $(".descP .stylizeP")
-const info = $(".info")
-const profile = $(".profile")
-const child = $(".child .stylize")
-const affection = $(".affection .stylize")
-const stranger = $(".stranger .stylize")
-const intel = $(".intel .stylize")
-const energy = $(".energy .stylize")
+const name = $(".name .stylize");
+const origin = $(".origin .stylize");
+const life_span = $(".life_span .stylize");
+const descP = $(".descP .stylizeP");
+const info = $(".info");
+const profile = $(".profile");
+const child = $(".child .stylize");
+const affection = $(".affection .stylize");
+const stranger = $(".stranger .stylize");
+const intel = $(".intel .stylize");
+const energy = $(".energy .stylize");
 
 const starRating = (rating) => {
-  return `${`★`.repeat(rating)}${`☆`.repeat(5-rating)}`
-}
+  return `${`★`.repeat(rating)}${`☆`.repeat(5 - rating)}`;
+};
 
 // Fetches the breed details of given cat
 const catFetch = async (cat) => {
-  const url = `https://api.thecatapi.com/v1/breeds/search?q=${cat}`
+  const url = `https://api.thecatapi.com/v1/breeds/search?q=${cat}`;
   await fetch(url, {
-      method: "GET",
-      headers: {
-        "x-api-key": "d4444680-73e4-4960-8552-69d64520f48b"
-      }
-    })
-    .then(response => {
-      if (response.ok) {
-        response.json().then(data => {
+    method: "GET",
+    headers: {
+      "x-api-key": "d4444680-73e4-4960-8552-69d64520f48b",
+    },
+  }).then((response) => {
+    if (response.ok) {
+      response
+        .json()
+        .then((data) => {
           name.text(data[0].name); // cat name
           origin.text(data[0].origin); // cat origin
           life_span.text(data[0].life_span); // cat life span
@@ -59,57 +59,71 @@ const catFetch = async (cat) => {
           stranger.text(`${starRating(data[0].stranger_friendly)}`); // cat stranger friendly
           intel.text(`${starRating(data[0].intelligence)}`); // cat intelligence
           energy.text(`${starRating(data[0].energy_level)}`); // cat energy level
-          info.attr('href', `${data[0].wikipedia_url}`); // cat wikipedia url
-          profile.attr('href', `https://cdn.dribbble.com/users/115601/screenshots/5356365/loading.gif`); // cat profile url temp
-          return fetch(`https://api.thecatapi.com/v1/images/${data[0].reference_image_id}`)
-        }).then(response => response.json()).then(data => {
-          profile.attr('src', `${data.url}`) // cat image url
+          info.attr("href", `${data[0].wikipedia_url}`); // cat wikipedia url
+          profile.attr(
+            "href",
+            `https://cdn.dribbble.com/users/115601/screenshots/5356365/loading.gif`
+          ); // cat profile url temp
+          return fetch(
+            `https://api.thecatapi.com/v1/images/${data[0].reference_image_id}`
+          );
         })
-      }
-    })
-}
+        .then((response) => response.json())
+        .then((data) => {
+          profile.attr("src", `${data.url}`); // cat image url
+        });
+    }
+  });
+};
 
 // Random cat breed event
 $(".random").on("click", function () {
-  catFetch(catBreeds[Math.floor(Math.random() * catBreeds.length)])
-})
+  catFetch(catBreeds[Math.floor(Math.random() * catBreeds.length)]);
+});
 
 // Search input handler
 $("input").on("keyup", function (event) {
   // Calls the API if enter is pressed and the input is valid within the array
-  if (event.key === "Enter" && catBreeds.includes(event.target.value.toLowerCase())) {
+  if (
+    event.key === "Enter" &&
+    catBreeds.includes(event.target.value.toLowerCase())
+  ) {
     catFetch(event.target.value);
-    event.target.val("")
+    event.target.val("");
   }
 
-
   if (event.target.value.length > 0) {
-    const filteredCats = catBreeds.filter(cat => cat.includes(event.target.value.toLowerCase()))
-    const regex = new RegExp(event.target.value, 'gi')
-    $("ul").empty()
-    filteredCats.slice(0, 9).forEach(cat => {
-      const catHighlight = cat.replace(regex,`<span class="highlight">${event.target.value}</span>`)
+    const filteredCats = catBreeds.filter((cat) =>
+      cat.toLowerCase().includes(event.target.value.toLowerCase())
+    );
+    const regex = new RegExp(event.target.value, "gi");
+    $("ul").empty();
+    filteredCats.slice(0, 9).forEach((cat) => {
+      const catHighlight = cat.replace(
+        regex,
+        `<span class="highlight">${event.target.value}</span>`
+      );
       $("ul").append(
         `<li>
         <span class="autocomplete>">${catHighlight}</span>
       </li>`
-      )
-    })
+      );
+    });
   } else {
-    $("ul").empty()
+    $("ul").empty();
   }
   $("li").on("click", function (event) {
-    catFetch(event.target.innerText)
-    $("ul").empty()
-    $("input").val("")
+    catFetch(event.target.innerText);
+    $("ul").empty();
+    $("input").val("");
+  });
+});
 
-  })
-})
-
-
-window.onload = () => {
-  fetch("https://api.thecatapi.com/v1/breeds")
-  .then(response => response.json())
-  .then(data => catBreeds = data.map(cat => cat.name))
-  .then(catBreeds => catFetch(catBreeds[Math.floor(Math.random() * catBreeds.length)]))
+window.onload = async () => {
+  await fetch("https://api.thecatapi.com/v1/breeds")
+    .then((response) => response.json())
+    .then((data) => (catBreeds = data.map((cat) => cat.name)))
+    .then((catBreeds) => {
+      catFetch(catBreeds[Math.floor(Math.random() * catBreeds.length)]);
+    });
 };
